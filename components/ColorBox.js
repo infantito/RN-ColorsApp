@@ -9,15 +9,18 @@ const Box = styled.View`
 `;
 
 const Text = styled.Text`
-  color: #fff;
+  color: ${props => props.color};
   font-weight: bold;
   text-align: center;
 `;
 
+const adjustColor = hexCode =>
+  parseInt(hexCode.replace('#', ''), 16) > 0xffffff / 1.1 ? '#000' : '#fff';
+
 const ColorBox = ({ children, color }) => {
   return (
     <Box color={color}>
-      <Text>
+      <Text color={adjustColor(color)}>
         {children}: {color}
       </Text>
     </Box>
