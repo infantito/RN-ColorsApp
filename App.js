@@ -12,7 +12,11 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="🏠" component={Home} />
-        <Stack.Screen name="🎨" component={ColorPalette} />
+        <Stack.Screen
+          name="🎨"
+          component={ColorPalette}
+          options={({ route }) => ({ title: `🎨 ${route.params.title} 🎨` })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

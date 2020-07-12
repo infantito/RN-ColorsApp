@@ -1,11 +1,26 @@
 import React from 'react';
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
+
+const styles = css`
+  background-color: ${props => props.color};
+  box-shadow: 2px 2px 2px #000;
+  border-radius: 4px;
+`;
 
 const Box = styled.View`
-  background-color: ${props => props.color};
+  ${styles}
+
   margin-bottom: 10px;
   padding: 10px;
   width: 100%;
+`;
+
+const EmptyBox = styled.View`
+  ${styles}
+
+  height: 30px;
+  margin-right: 10px;
+  width: 30px;
 `;
 
 const Text = styled.Text`
@@ -27,4 +42,6 @@ const ColorBox = ({ children, color }) => {
   );
 };
 
-export default ColorBox;
+const EmptyColorBox = ({ hexCode }) => <EmptyBox color={hexCode} />;
+
+export { EmptyColorBox, ColorBox as default };
