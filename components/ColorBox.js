@@ -3,8 +3,18 @@ import styled, { css } from 'styled-components/native';
 
 const styles = css`
   background-color: ${props => props.color};
-  box-shadow: 2px 2px 2px #000;
   border-radius: 4px;
+  /*
+    box-shadow properties only work in iOS
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.75);
+  */
+  /* shadow properties only work in iOS */
+  shadow-color: #000;
+  shadow-offset: 0px 2px;
+  shadow-opacity: 0.3;
+  shadow-radius: 1;
+  /* elevation only works in android */
+  elevation: 2;
 `;
 
 const Box = styled.View`
