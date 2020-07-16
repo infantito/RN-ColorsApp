@@ -12,7 +12,7 @@ const styles = css`
   shadow-color: #000;
   shadow-offset: 0px 2px;
   shadow-opacity: 0.3;
-  shadow-radius: 1;
+  shadow-radius: 1px;
   /* elevation only works in android */
   elevation: 2;
 `;

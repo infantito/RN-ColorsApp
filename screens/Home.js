@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { FlatList } from 'react-native';
-import { SOLARIZED, FRONTEND_MASTERS, RAINBOW } from '../constants';
 import TouchableOption from '../components/TouchableOption';
 
 const View = styled.View`
@@ -15,15 +14,32 @@ const renderItem = navigation => ({ item }) => (
 );
 
 const Home = ({ navigation }) => {
-  const COLOR_PALETTES = [
-    { title: 'Solarized', colors: SOLARIZED, key: '1' },
-    { title: 'Frontend Masters', colors: FRONTEND_MASTERS, key: '2' },
-    { title: 'Rainbow', colors: RAINBOW, key: '3' },
-  ];
+  const [colorPalettes, setColorPalettes] = useState([]);
+
+  const fetchColorPalettes = useCallback(async () => {
+    const result = await fetch(
+      'https://color-palette-api.kadikraman.now.sh/palettes',
+    );
+
+    if (result.ok) {
+      const data = await result.json();
+
+      setColorPalettes(data);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchColorPalettes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View>
-      <FlatList data={COLOR_PALETTES} renderItem={renderItem(navigation)} />
+      <FlatList
+        data={colorPalettes}
+        keyExtractor={item => item.paletteName}
+        renderItem={renderItem(navigation)}
+      />
     </View>
   );
 };
