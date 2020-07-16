@@ -16,16 +16,30 @@ const renderItem = navigation => ({ item }) => (
 const Home = ({ navigation }) => {
   const [colorPalettes, setColorPalettes] = useState([]);
 
+  const [isRefreshing, setIsRefreshing] = useState(true);
+
   const fetchColorPalettes = useCallback(async () => {
-    const result = await fetch(
-      'https://color-palette-api.kadikraman.now.sh/palettes',
-    );
+    setIsRefreshing(true);
 
-    if (result.ok) {
-      const data = await result.json();
+    try {
+      const result = await fetch(
+        'https://color-palette-api.kadikraman.now.sh/palettes',
+      );
 
-      setColorPalettes(data);
+      if (result.ok) {
+        const data = await result.json();
+
+        setColorPalettes(data);
+      }
+    } catch {
+    } finally {
+      setIsRefreshing(false);
     }
+  }, []);
+
+  const handleRefresh = useCallback(async () => {
+    await fetchColorPalettes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -39,6 +53,8 @@ const Home = ({ navigation }) => {
         data={colorPalettes}
         keyExtractor={item => item.paletteName}
         renderItem={renderItem(navigation)}
+        refreshing={isRefreshing}
+        onRefresh={handleRefresh}
       />
     </View>
   );
