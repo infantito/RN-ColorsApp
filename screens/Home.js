@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import { FlatList } from 'react-native';
+import { FlatList, TouchableOpacity, Text } from 'react-native';
 import TouchableOption from '../components/TouchableOption';
 
 const View = styled.View`
@@ -47,6 +47,8 @@ const Home = ({ navigation }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handlePress = () => navigation.navigate('🍭');
+
   return (
     <View>
       <FlatList
@@ -55,6 +57,11 @@ const Home = ({ navigation }) => {
         renderItem={renderItem(navigation)}
         refreshing={isRefreshing}
         onRefresh={handleRefresh}
+        ListHeaderComponent={
+          <TouchableOpacity onPress={handlePress}>
+            <Text>🚀 🔥</Text>
+          </TouchableOpacity>
+        }
       />
     </View>
   );
