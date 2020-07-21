@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import { FlatList, TouchableOpacity, Text } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native';
 import TouchableOption from '../components/TouchableOption';
 
 const View = styled.View`
@@ -9,11 +9,20 @@ const View = styled.View`
   padding: 10px;
 `;
 
+const Launcher = styled.Text`
+  color: teal;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
+
 const renderItem = navigation => ({ item }) => (
   <TouchableOption navigation={navigation} {...item} />
 );
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
+  const { newColorPalette } = route.params || {};
+
   const [colorPalettes, setColorPalettes] = useState([]);
 
   const [isRefreshing, setIsRefreshing] = useState(true);
@@ -47,6 +56,12 @@ const Home = ({ navigation }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (newColorPalette) {
+      setColorPalettes(palettes => [newColorPalette, ...palettes]);
+    }
+  }, [newColorPalette]);
+
   const handlePress = () => navigation.navigate('🍭');
 
   return (
@@ -59,7 +74,7 @@ const Home = ({ navigation }) => {
         onRefresh={handleRefresh}
         ListHeaderComponent={
           <TouchableOpacity onPress={handlePress}>
-            <Text>🚀 🔥</Text>
+            <Launcher>🚀 Add a color schema 🚀</Launcher>
           </TouchableOpacity>
         }
       />

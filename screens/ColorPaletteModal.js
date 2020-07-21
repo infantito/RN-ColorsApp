@@ -32,12 +32,22 @@ const SubmitText = styled.Text`
 `;
 
 const ColorPaletteModal = props => {
+  const { navigation } = props;
+
   const [name, setName] = useState('');
 
   const handleSubmit = useCallback(() => {
     if (!name.trim()) {
       Alert.alert('Please enter a palette name 🎨');
+    } else {
+      const newColorPalette = {
+        paletteName: name,
+        colors: [],
+      };
+
+      navigation.navigate('🏠', { newColorPalette });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
 
   return (
